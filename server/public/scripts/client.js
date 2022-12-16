@@ -1,14 +1,15 @@
 
 //RENDER THE DOM//
 $( document ).ready( function(){
+  addButtonFunc();
   renderLists();
+  $('body').on('click', '.doneButton', doneStatus)
 });
 //RENDER THE DOM//
 
 
 // RENDER THE TO DO LIST//
 function renderLists(){
-  console.log( 'in getKoalas' );
   $.ajax({
     type: 'GET',
     url: '/toDO'
@@ -19,19 +20,20 @@ function renderLists(){
       $('#toDos').append(`
         <tr>
           <td>${toDo.toDoItem}</td>
-          <td>${toDo.status}</td>
           <td><button data-id=${toDo.id} class="doneButton">Done</button></td>
           <td><button data-id=${toDo.id} class="deleteButton">Delete</button></td>
         </tr>
     `);
       }else{
         $('#toDos').append(`
-        <tr>
+        <tr class="done">
           <td>${toDo.toDoItem}</td>
-          <td>${toDo.status}</td>
+          <td>Done</td>
           <td><button data-id=${toDo.id} class="deleteButton">Delete</button></td>
         </tr>
     `);
+    // $('.done').css("background-color", "green");
+    $('.done').css("color", "green");
       }
     console.log(toDo.id)
     }
@@ -47,8 +49,8 @@ function addButtonFunc() {
   $( '#addButton' ).on( 'click', function(){
     console.log( 'in addButton on click' );
     let ItemToSend = {
-      name: $('#toDoIn').val(),
-      age: 'To DO'
+      toDoItem: $('#toDoIn').val(),
+      status: 'To Do'
     };
     saveListItem(ItemToSend);
   }); 
@@ -70,3 +72,29 @@ function saveListItem( newItem ){
     });
 }
 //ITEM POST ROUTE//
+
+
+
+//ITEM PUT ROUTE//
+function doneStatus() {
+  let idToUpdate = $(this).data().id;
+  $.ajax({
+    method: 'PUT',
+    url: `/toDo/${idToUpdate}`,
+    data: {
+      status: 'Done'
+    }
+  }).then((response) => {
+    console.log(idToUpdate)
+
+    renderLists();
+  }).catch((error) => {
+    console.log(error);
+  })
+}
+//END ITEM PUT ROUTE//
+
+
+//ITEM DELETE ROUTE//
+
+//END ITEM DELETE ROUTE//

@@ -44,7 +44,25 @@ toDoRouter.post('/',  (req, res) => {
 
 
 //PUT ROUTE//
+toDoRouter.put('/:id', (req, res) => {
+  let idToUpdate = req.params.id;
+  let doneStatus = req.body.status;
 
+  let sqlQuery = `
+    UPDATE "toDos"
+	    SET "status"=$1
+	    WHERE "id"=$2;
+  ` 
+  let sqlValues = [doneStatus, idToUpdate];
+  pool.query(sqlQuery, sqlValues)
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch((dbErr) => {
+      console.log(dbErr);
+      res.sendStatus(500);
+    })
+})
 
 
 //DELETE ROUTE//
