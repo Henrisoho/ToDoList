@@ -1,0 +1,32 @@
+#toDoIn{
+    width: 20%;
+} 
+
+table{
+  border: solid 1px;
+}
+
+
+tbody tr:nth-child(odd) {
+  background-color: #ff33cc;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #e495e4;
+}
+
+tbody tr {
+  background-image: url(noise.png);
+}
+
+table {
+  background-color: #ff33cc;
+}
+
+h1{
+    text-align: center;
+}
+
+body{
+    background-color: aqua;
+}

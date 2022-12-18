@@ -4,6 +4,7 @@ $( document ).ready( function(){
   addButtonFunc();
   renderLists();
   $('body').on('click', '.doneButton', doneStatus)
+  $('body').on('click', '.deleteButton', deleteItem);
 });
 //RENDER THE DOM//
 
@@ -96,5 +97,16 @@ function doneStatus() {
 
 
 //ITEM DELETE ROUTE//
+function deleteItem() {
+  let idToDelete = $(this).data().id;
 
+  $.ajax({
+    method: 'DELETE',
+    url: `/toDo/${idToDelete}`
+  }).then((response) => {
+    renderLists();
+  }).catch((error) => {
+    console.log(error);
+  })
+}
 //END ITEM DELETE ROUTE//
